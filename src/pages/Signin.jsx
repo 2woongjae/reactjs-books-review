@@ -45,6 +45,7 @@ const Underline = styled.div`
 
 const SigninArea = styled(Row)`
   margin-top: 50px;
+  background-color: #f3f7f8;
 `;
 
 export default function Signin() {
