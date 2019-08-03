@@ -1,13 +1,7 @@
 import React from 'react';
 import * as axios from 'axios';
-
-function Book(props) {
-  return (
-    <div>
-      <h2>{props.title}</h2>
-    </div>
-  );
-}
+import Navs from '../components/Navs';
+import Book from '../components/Book';
 
 export default class Home extends React.Component {
   state = {
@@ -42,14 +36,34 @@ export default class Home extends React.Component {
   }
 
   render() {
+    const { token } = this.props;
     const { books } = this.state;
     return (
       <div>
+        <Navs token={token} />
         <h1>Home</h1>
         {books.map(book => (
-          <Book {...book} key={book.bookId} />
+          <Book
+            {...book}
+            key={book.bookId}
+            token={token}
+            removeBook={this.removeBook}
+          />
         ))}
       </div>
     );
   }
+
+  removeBook = bookId => {
+    const { books } = this.state;
+    const newBooks = [];
+    for (let i = 0; i < books.length; i++) {
+      if (books[i].bookId !== bookId) {
+        newBooks.push({ ...books[i] });
+      }
+    }
+    this.setState({
+      books: newBooks,
+    });
+  };
 }
