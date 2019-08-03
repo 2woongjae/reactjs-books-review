@@ -1,7 +1,9 @@
 import React from 'react';
-import { Input, Button, Divider, Col } from 'antd';
+import { Input, Button, Divider, Col, message } from 'antd';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import * as axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 const Title = styled.div`
   padding-top: 10px;
@@ -104,11 +106,16 @@ const LinkButton = styled(Button)`
   }
 `;
 
-export default class SigninForm extends React.Component {
+class SigninForm extends React.Component {
   _emailInput = React.createRef();
   _passwordInput = React.createRef();
 
+  state = {
+    loading: false,
+  };
+
   render() {
+    const { loading } = this.state;
     return (
       <Col
         span={12}
@@ -132,7 +139,7 @@ export default class SigninForm extends React.Component {
           <StyledInput type="password" ref={this._passwordInput} />
         </InputArea>
         <ButtonArea>
-          <StyledButton size="large" loading={false} onClick={this._click}>
+          <StyledButton size="large" loading={loading} onClick={this._click}>
             Sign In
           </StyledButton>
         </ButtonArea>
@@ -159,10 +166,45 @@ export default class SigninForm extends React.Component {
     );
   }
 
-  _click = () => {
+  _click = async () => {
+    const { history } = this.props;
     console.log(
       this._emailInput.current.state.value,
       this._passwordInput.current.state.value,
     );
+    const email = this._emailInput.current.state.value;
+    const password = this._passwordInput.current.state.value;
+
+    if (email === '' || password === '') {
+      message.error('머라도 적으세요');
+      return;
+    }
+
+    this.setState({
+      loading: true,
+    });
+
+    try {
+      const response = await axios.post('https://api.marktube.tv/v1/me', {
+        email,
+        password,
+      });
+      const token = response.data.token;
+      console.log(token);
+      //
+      localStorage.setItem('token', token);
+      history.push('/');
+    } catch (error) {
+      console.log(error.response.data.error);
+      message.error(error.response.data.error);
+
+      this.setState({
+        loading: false,
+      });
+    }
+
+    // https://api.marktube.tv/v1/me post {email, password}
   };
 }
+
+export default withRouter(SigninForm);
