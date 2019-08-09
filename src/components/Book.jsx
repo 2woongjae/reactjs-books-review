@@ -1,21 +1,31 @@
 import React from 'react';
 import * as axios from 'axios';
 
-export default function Book(props) {
+export default function Book({
+  token,
+  bookId,
+  title,
+  message,
+  author,
+  url,
+  deleteBook,
+  undoDeleteBook,
+}) {
   const click = async () => {
-    console.log('삭제', props.bookId);
+    console.log('삭제', bookId);
+    deleteBook(bookId);
     try {
-      await axios.delete(`https://api.marktube.tv/v1/book/${props.bookId}`, {
+      await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
         headers: {
-          Authorization: `Bearer ${props.token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
-      // 갱신
-      props.removeBook(props.bookId);
     } catch (error) {
       console.log(error);
+      undoDeleteBook(bookId);
     }
   };
+
   return (
     <div
       style={{
@@ -24,12 +34,12 @@ export default function Book(props) {
         margin: 10,
       }}
     >
-      <h2>{props.title}</h2>
-      <p>{props.message}</p>
-      <p>{props.author}</p>
+      <h2>{title}</h2>
+      <p>{message}</p>
+      <p>{author}</p>
       <p>
-        <a href={props.url} target="_BLANK">
-          {props.url}
+        <a href={url} target="_BLANK">
+          {url}
         </a>
       </p>
       <p>

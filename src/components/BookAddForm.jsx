@@ -105,7 +105,7 @@ class SigninForm extends React.Component {
   }
 
   _click = async () => {
-    const { history, token } = this.props;
+    const { history, token, addBook } = this.props;
     console.log(
       this._titleInput.current.state.value,
       this._messageInput.current.state.value,
@@ -146,6 +146,12 @@ class SigninForm extends React.Component {
           },
         },
       );
+      // addBook({
+      //   title,
+      //   message: messageValue,
+      //   author,
+      //   url,
+      // });
       history.push('/');
     } catch (error) {
       console.log(error.response.data.error);
