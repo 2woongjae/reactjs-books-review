@@ -1,4 +1,10 @@
-import { DELETE_BOOK, RECEIVE_BOOKS, UNDO_DELETE_BOOK } from '../actions';
+import {
+  DELETE_BOOK,
+  RECEIVE_BOOKS,
+  UNDO_DELETE_BOOK,
+  BOOKS_FETCH_SUCCEEDED,
+} from '../actions';
+import { List } from 'immutable';
 
 const initialState = [
   //   {
@@ -17,24 +23,41 @@ const initialState = [
 
 export default function books(state = initialState, action) {
   switch (action.type) {
-    case RECEIVE_BOOKS:
-      return [...state, ...action.books];
+    case BOOKS_FETCH_SUCCEEDED:
+    case RECEIVE_BOOKS: {
+      console.log(RECEIVE_BOOKS);
+
+      return List(state)
+        .push(...action.books)
+        .toArray();
+    }
+
+    case 'BOOKS_FULFILLED': {
+      return List(state)
+        .push(...action.payload.data)
+        .toArray();
+    }
 
     case DELETE_BOOK: {
-      const newState = [...state];
-      for (let i = 0; i < newState.length; i++) {
-        if (newState[i].bookId === action.bookId)
-          newState[i].deletedAt = new Date().toISOString();
-      }
-      return newState;
+      const list = List(state);
+
+      return list
+        .setIn(
+          [list.findIndex(book => book.bookId === action.bookId), 'deletedAt'],
+          new Date().toISOString(),
+        )
+        .toArray();
     }
 
     case UNDO_DELETE_BOOK: {
-      const newState = [...state];
-      for (let i = 0; i < newState.length; i++) {
-        if (newState[i].bookId === action.bookId) newState[i].deletedAt = null;
-      }
-      return newState;
+      const list = List(state);
+
+      return list
+        .setIn(
+          [list.findIndex(book => book.bookId === action.bookId), 'deletedAt'],
+          null,
+        )
+        .toArray();
     }
 
     default:

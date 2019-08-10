@@ -2,7 +2,8 @@ import React from 'react';
 import { Input, Button, Col, message } from 'antd';
 import styled from 'styled-components';
 import * as axios from 'axios';
-import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
 const InputTitle = styled.div`
   font-family: Roboto;
@@ -105,7 +106,7 @@ class SigninForm extends React.Component {
   }
 
   _click = async () => {
-    const { history, token, addBook } = this.props;
+    const { history, token, addBook, dispatch } = this.props;
     console.log(
       this._titleInput.current.state.value,
       this._messageInput.current.state.value,
@@ -152,7 +153,8 @@ class SigninForm extends React.Component {
       //   author,
       //   url,
       // });
-      history.push('/');
+      // history.push('/');
+      dispatch(push('/hello'));
     } catch (error) {
       console.log(error.response.data.error);
       message.error(error.response.data.error);
@@ -164,4 +166,4 @@ class SigninForm extends React.Component {
   };
 }
 
-export default withRouter(SigninForm);
+export default connect()(SigninForm);
