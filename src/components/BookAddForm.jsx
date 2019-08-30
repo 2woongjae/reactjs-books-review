@@ -1,9 +1,7 @@
 import React from 'react';
-import { Input, Button, Col, message } from 'antd';
+import { Input, Button, PageHeader, message, Icon } from 'antd';
 import styled from 'styled-components';
 import * as axios from 'axios';
-import { connect } from 'react-redux';
-import { push } from 'connected-react-router';
 
 const InputTitle = styled.div`
   font-family: Roboto;
@@ -20,7 +18,7 @@ const InputArea = styled.div`
 `;
 
 const StyledInput = styled(Input)`
-  width: 320px;
+  width: 520px;
   border-radius: 1px;
   border-width: 1px;
   font-family: Roboto;
@@ -29,8 +27,8 @@ const StyledInput = styled(Input)`
 `;
 
 const ButtonArea = styled.div`
-  text-align: left;
-  padding-left: 40px;
+  text-align: right;
+  padding-right: 40px;
   margin-top: 20px;
 `;
 
@@ -55,7 +53,7 @@ const StyledSpan = styled.span.attrs(() => ({
   color: #971931;
 `;
 
-class SigninForm extends React.Component {
+class BookAddForm extends React.Component {
   _titleInput = React.createRef();
   _messageInput = React.createRef();
   _authorInput = React.createRef();
@@ -66,47 +64,67 @@ class SigninForm extends React.Component {
   };
 
   render() {
+    const { back } = this.props;
     const { loading } = this.state;
     return (
-      <Col
-        span={12}
+      <div
         style={{
-          verticalAlign: 'top',
+          marginLeft: 40,
+          marginRight: 40,
+          marginTop: 30,
+          marginBottom: 50,
         }}
       >
-        <InputTitle>
-          Title
-          <StyledSpan />
-        </InputTitle>
-        <InputArea>
-          <StyledInput placeholder="Title" ref={this._titleInput} />
-        </InputArea>
-        <InputTitle top={10}>
-          Comment
-          <StyledSpan />
-        </InputTitle>
-        <InputArea>
-          <StyledInput placeholder="Comment" ref={this._messageInput} />
-        </InputArea>
-        <InputTitle top={10}>Author</InputTitle>
-        <InputArea>
-          <StyledInput placeholder="Author" ref={this._authorInput} />
-        </InputArea>
-        <InputTitle top={10}>URL</InputTitle>
-        <InputArea>
-          <StyledInput placeholder="URL" ref={this._urlInput} />
-        </InputArea>
-        <ButtonArea>
-          <StyledButton size="large" loading={loading} onClick={this._click}>
-            추가하기
-          </StyledButton>
-        </ButtonArea>
-      </Col>
+        <PageHeader
+          onBack={back}
+          title={
+            <div>
+              <Icon type="form" /> Add Book
+            </div>
+          }
+          subTitle="Add Your Faborite Book"
+        />
+        <div
+          style={{
+            width: 600,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
+          <InputTitle>
+            Title
+            <StyledSpan />
+          </InputTitle>
+          <InputArea>
+            <StyledInput placeholder="Title" ref={this._titleInput} />
+          </InputArea>
+          <InputTitle top={10}>
+            Comment
+            <StyledSpan />
+          </InputTitle>
+          <InputArea>
+            <StyledInput placeholder="Comment" ref={this._messageInput} />
+          </InputArea>
+          <InputTitle top={10}>Author</InputTitle>
+          <InputArea>
+            <StyledInput placeholder="Author" ref={this._authorInput} />
+          </InputArea>
+          <InputTitle top={10}>URL</InputTitle>
+          <InputArea>
+            <StyledInput placeholder="URL" ref={this._urlInput} />
+          </InputArea>
+          <ButtonArea>
+            <StyledButton size="large" loading={loading} onClick={this._click}>
+              추가하기
+            </StyledButton>
+          </ButtonArea>
+        </div>
+      </div>
     );
   }
 
   _click = async () => {
-    const { history, token, addBook, dispatch } = this.props;
+    const { token, back } = this.props;
     console.log(
       this._titleInput.current.state.value,
       this._messageInput.current.state.value,
@@ -147,14 +165,7 @@ class SigninForm extends React.Component {
           },
         },
       );
-      // addBook({
-      //   title,
-      //   message: messageValue,
-      //   author,
-      //   url,
-      // });
-      // history.push('/');
-      dispatch(push('/hello'));
+      back('/');
     } catch (error) {
       console.log(error.response.data.error);
       message.error(error.response.data.error);
@@ -166,4 +177,4 @@ class SigninForm extends React.Component {
   };
 }
 
-export default connect()(SigninForm);
+export default BookAddForm;

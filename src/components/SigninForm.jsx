@@ -2,8 +2,6 @@ import React from 'react';
 import { Input, Button, Divider, Col, message } from 'antd';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import * as axios from 'axios';
-import { withRouter } from 'react-router-dom';
 
 const Title = styled.div`
   padding-top: 10px;
@@ -167,11 +165,8 @@ class SigninForm extends React.Component {
   }
 
   _click = async () => {
-    const { history } = this.props;
-    console.log(
-      this._emailInput.current.state.value,
-      this._passwordInput.current.state.value,
-    );
+    const { login } = this.props;
+
     const email = this._emailInput.current.state.value;
     const password = this._passwordInput.current.state.value;
 
@@ -185,15 +180,7 @@ class SigninForm extends React.Component {
     });
 
     try {
-      const response = await axios.post('https://api.marktube.tv/v1/me', {
-        email,
-        password,
-      });
-      const token = response.data.token;
-      console.log(token);
-      //
-      localStorage.setItem('token', token);
-      history.push('/');
+      await login(email, password);
     } catch (error) {
       console.log(error.response.data.error);
       message.error(error.response.data.error);
@@ -202,9 +189,7 @@ class SigninForm extends React.Component {
         loading: false,
       });
     }
-
-    // https://api.marktube.tv/v1/me post {email, password}
   };
 }
 
-export default withRouter(SigninForm);
+export default SigninForm;

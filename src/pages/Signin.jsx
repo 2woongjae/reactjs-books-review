@@ -2,7 +2,7 @@ import React from 'react';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import SigninBg from '../components/SigninBg';
-import SigninForm from '../components/SigninForm';
+import SigninFormContainer from '../containers/SigninFormContainer';
 
 const Page = styled(Row).attrs(() => ({
   type: 'flex',
@@ -60,7 +60,7 @@ export default function Signin() {
           <Underline />
           <SigninArea>
             <SigninBg />
-            <SigninForm />
+            <SigninFormContainer />
           </SigninArea>
         </Content>
       </Col>

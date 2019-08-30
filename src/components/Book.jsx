@@ -1,18 +1,20 @@
 import React from 'react';
 import * as axios from 'axios';
 
-export default function Book({
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import { Button, Icon } from 'antd';
+
+const Topic = ({
   token,
   bookId,
   title,
-  message,
   author,
-  url,
   deleteBook,
   undoDeleteBook,
-}) {
+  createdAt,
+}) => {
   const click = async () => {
-    console.log('삭제', bookId);
     deleteBook(bookId);
     try {
       await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
@@ -25,26 +27,68 @@ export default function Book({
       undoDeleteBook(bookId);
     }
   };
-
   return (
     <div
       style={{
-        border: '1px solid green',
-        padding: 10,
-        margin: 10,
+        display: 'table',
+        overflow: 'hidden',
       }}
     >
-      <h2>{title}</h2>
-      <p>{message}</p>
-      <p>{author}</p>
-      <p>
-        <a href={url} target="_BLANK">
-          {url}
-        </a>
-      </p>
-      <p>
-        <button onClick={click}>delete</button>
-      </p>
+      <div
+        style={{
+          display: 'table-cell',
+          verticalAlign: 'middle',
+          fontSize: 14,
+          fontWeight: 'bold',
+          paddingLeft: 10,
+        }}
+      >
+        <Link
+          to={`/book/${bookId}`}
+          style={{
+            color: '#0a222e',
+          }}
+        >
+          <Icon type="book" /> {title}
+        </Link>
+      </div>
+      <div
+        style={{
+          display: 'table-cell',
+          verticalAlign: 'middle',
+          fontSize: 14,
+          fontWeight: 'bold',
+          paddingLeft: 10,
+        }}
+      >
+        <Link to={`/book/${bookId}`}>{author}</Link>
+      </div>
+      <div
+        style={{
+          color: '#999999',
+          display: 'table-cell',
+          verticalAlign: 'middle',
+          fontSize: 14,
+          paddingLeft: 10,
+        }}
+      >
+        {moment(createdAt).format('MM-DD-YYYY hh:mm a')}
+      </div>
+      <div
+        style={{
+          color: '#999999',
+          display: 'table-cell',
+          verticalAlign: 'middle',
+          fontSize: 14,
+          paddingLeft: 10,
+        }}
+      >
+        <Button size="small" type="danger" ghost onClick={click}>
+          Delete
+        </Button>
+      </div>
     </div>
   );
-}
+};
+
+export default Topic;

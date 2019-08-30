@@ -2,8 +2,7 @@ import {
   DELETE_BOOK,
   RECEIVE_BOOKS,
   UNDO_DELETE_BOOK,
-  BOOKS_FETCH_SUCCEEDED,
-} from '../actions';
+} from '../constants/actionTypes';
 import { List } from 'immutable';
 
 const initialState = [
@@ -23,19 +22,8 @@ const initialState = [
 
 export default function books(state = initialState, action) {
   switch (action.type) {
-    case BOOKS_FETCH_SUCCEEDED:
     case RECEIVE_BOOKS: {
-      console.log(RECEIVE_BOOKS);
-
-      return List(state)
-        .push(...action.books)
-        .toArray();
-    }
-
-    case 'BOOKS_FULFILLED': {
-      return List(state)
-        .push(...action.payload.data)
-        .toArray();
+      return List(action.books).toArray();
     }
 
     case DELETE_BOOK: {
