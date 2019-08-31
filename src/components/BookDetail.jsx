@@ -1,5 +1,12 @@
 import React from 'react';
 import { PageHeader, Icon, Descriptions } from 'antd';
+import styled from 'styled-components';
+
+const StyledDescriptions = styled(Descriptions)`
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 30px;
+`;
 
 class BookDetail extends React.Component {
   componentDidMount() {
@@ -10,29 +17,11 @@ class BookDetail extends React.Component {
   render() {
     const { loading, book, back } = this.props;
     if (loading || book === null) {
-      return (
-        <div
-          style={{
-            marginLeft: 40,
-            marginRight: 40,
-            marginTop: 30,
-            marginBottom: 50,
-          }}
-        >
-          Loading...
-        </div>
-      );
+      return <>Loading...</>;
     }
 
     return (
-      <div
-        style={{
-          marginLeft: 40,
-          marginRight: 40,
-          marginTop: 30,
-          marginBottom: 50,
-        }}
-      >
+      <>
         <PageHeader
           onBack={back}
           title={
@@ -42,14 +31,7 @@ class BookDetail extends React.Component {
           }
           subTitle={book.author}
         />
-        <Descriptions
-          bordered
-          style={{
-            marginLeft: 20,
-            marginRight: 20,
-            marginTop: 30,
-          }}
-        >
+        <StyledDescriptions bordered>
           <Descriptions.Item label="Title">{book.title}</Descriptions.Item>
           <Descriptions.Item label="Author">{book.author}</Descriptions.Item>
           <Descriptions.Item label="Created At">
@@ -61,8 +43,8 @@ class BookDetail extends React.Component {
               {book.url}
             </a>
           </Descriptions.Item>
-        </Descriptions>
-      </div>
+        </StyledDescriptions>
+      </>
     );
   }
 }

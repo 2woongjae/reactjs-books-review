@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { receiveBookThunk } from '../actions/book';
+import { receiveBookThunk } from '../actions';
 import BookDetail from '../components/BookDetail';
 import { push } from 'connected-react-router';
 

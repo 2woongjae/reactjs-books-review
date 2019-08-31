@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
-import SigninBg from '../components/SigninBg';
+import SigninBg from '../components/Signin/SigninBg';
 import SigninFormContainer from '../containers/SigninFormContainer';
 
 const Page = styled(Row).attrs(() => ({
@@ -9,7 +9,7 @@ const Page = styled(Row).attrs(() => ({
   align: 'middle',
 }))`
   height: 100vh;
-`; // <Row type="flex" align="middle" style={{height: '100vh'}}> = <Page>
+`;
 
 const Content = styled.div`
   width: 800px;

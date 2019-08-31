@@ -1,4 +1,4 @@
-import * as axios from 'axios';
+import { BookRequest } from '../services/RequestServices';
 import {
   START_RECEIVE_BOOK,
   RECEIVE_BOOK,
@@ -30,17 +30,8 @@ export function receiveBookThunk(token, bookId) {
   return async dispatch => {
     dispatch(startReceiveBook());
     try {
-      const response = await axios.get(
-        `https://api.marktube.tv/v1/book/${bookId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setTimeout(() => {
-        dispatch(receiveBook(response.data));
-      }, 1000);
+      const response = await BookRequest.getBook(token, bookId);
+      dispatch(receiveBook(response.data));
     } catch (error) {
       console.log(error);
       dispatch(errorReceiveBook());

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { receiveBooksThunk } from '../actions/books';
-import { deleteBook, undoDeleteBook } from '../actions/book';
+import { receiveBooksThunk, deleteBook, undoDeleteBook } from '../actions';
 import BookList from '../components/BookList';
 
 const mapStateToProps = state => ({

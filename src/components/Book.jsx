@@ -1,9 +1,9 @@
 import React from 'react';
-import * as axios from 'axios';
 
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { Button, Icon } from 'antd';
+import { BookRequest } from '../services/RequestServices';
 
 const Topic = ({
   token,
@@ -17,11 +17,7 @@ const Topic = ({
   const click = async () => {
     deleteBook(bookId);
     try {
-      await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await BookRequest.removeBook(token, bookId);
     } catch (error) {
       console.log(error);
       undoDeleteBook(bookId);

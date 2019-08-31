@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { logoutThunk } from '../actions/token';
+import { logoutThunk } from '../actions';
 import Navs from '../components/Layout/Navs';
 
 const mapStateToProps = state => ({

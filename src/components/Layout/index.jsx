@@ -7,7 +7,16 @@ const Layout = ({ token, children }) => (
   <div>
     <Head />
     <Header token={token} />
-    {children}
+    <div
+      style={{
+        marginLeft: 40,
+        marginRight: 40,
+        marginTop: 30,
+        marginBottom: 50,
+      }}
+    >
+      {children}
+    </div>
     <Footer />
   </div>
 );

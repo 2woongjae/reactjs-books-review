@@ -1,7 +1,12 @@
 import React from 'react';
 import { Input, Button, PageHeader, message, Icon } from 'antd';
 import styled from 'styled-components';
-import * as axios from 'axios';
+
+const StyledDiv = styled.div`
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 const InputTitle = styled.div`
   font-family: Roboto;
@@ -53,7 +58,7 @@ const StyledSpan = styled.span.attrs(() => ({
   color: #971931;
 `;
 
-class BookAddForm extends React.Component {
+class BookAdd extends React.Component {
   _titleInput = React.createRef();
   _messageInput = React.createRef();
   _authorInput = React.createRef();
@@ -67,14 +72,7 @@ class BookAddForm extends React.Component {
     const { back } = this.props;
     const { loading } = this.state;
     return (
-      <div
-        style={{
-          marginLeft: 40,
-          marginRight: 40,
-          marginTop: 30,
-          marginBottom: 50,
-        }}
-      >
+      <>
         <PageHeader
           onBack={back}
           title={
@@ -84,13 +82,7 @@ class BookAddForm extends React.Component {
           }
           subTitle="Add Your Faborite Book"
         />
-        <div
-          style={{
-            width: 600,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-          }}
-        >
+        <StyledDiv>
           <InputTitle>
             Title
             <StyledSpan />
@@ -118,19 +110,14 @@ class BookAddForm extends React.Component {
               추가하기
             </StyledButton>
           </ButtonArea>
-        </div>
-      </div>
+        </StyledDiv>
+      </>
     );
   }
 
   _click = async () => {
-    const { token, back } = this.props;
-    console.log(
-      this._titleInput.current.state.value,
-      this._messageInput.current.state.value,
-      this._authorInput.current.state.value,
-      this._urlInput.current.state.value,
-    );
+    const { token, addBook } = this.props;
+
     const title = this._titleInput.current.state.value;
     const messageValue = this._messageInput.current.state.value;
     const author = this._authorInput.current.state.value;
@@ -151,21 +138,7 @@ class BookAddForm extends React.Component {
     });
 
     try {
-      await axios.post(
-        'https://api.marktube.tv/v1/book',
-        {
-          title,
-          message: messageValue,
-          author,
-          url,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      back('/');
+      await addBook(token, title, messageValue, author, url);
     } catch (error) {
       console.log(error.response.data.error);
       message.error(error.response.data.error);
@@ -177,4 +150,4 @@ class BookAddForm extends React.Component {
   };
 }
 
-export default BookAddForm;
+export default BookAdd;

@@ -1,5 +1,6 @@
 import React from 'react';
+import Layout from '../components/Layout';
 
-export default function Error() {
-  return <>페이지를 찾을 수 없습니다.</>;
-}
+const Error = () => <Layout>페이지를 찾을 수 없습니다.</Layout>;
+
+export default Error;

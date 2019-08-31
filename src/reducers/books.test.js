@@ -1,5 +1,5 @@
 import books from './books';
-import { receiveBooks } from '../actions/books';
+import { receiveBooks } from '../actions';
 
 describe('books', () => {
   describe('reducer', () => {

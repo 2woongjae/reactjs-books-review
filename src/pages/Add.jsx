@@ -1,10 +1,10 @@
 import React from 'react';
-import BookAddFormContainer from '../containers/BookAddFormContainer';
+import BookAddContainer from '../containers/BookAddContainer';
 import Layout from '../components/Layout';
 
 const Home = () => (
   <Layout>
-    <BookAddFormContainer />
+    <BookAddContainer />
   </Layout>
 );
 

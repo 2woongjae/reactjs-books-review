@@ -12,14 +12,7 @@ export default class BookList extends React.Component {
     const { token, deleteBook, undoDeleteBook, loading } = this.props;
     const books = this.props.books.filter(book => book.deletedAt === null);
     return (
-      <div
-        style={{
-          marginLeft: 40,
-          marginRight: 40,
-          marginTop: 30,
-          marginBottom: 50,
-        }}
-      >
+      <>
         <PageHeader
           title={
             <div>
@@ -61,7 +54,7 @@ export default class BookList extends React.Component {
           rowKey="bookId"
           loading={loading}
         />
-      </div>
+      </>
     );
   }
 }

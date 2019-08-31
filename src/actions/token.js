@@ -1,5 +1,5 @@
-import * as axios from 'axios';
 import { REMOVE_TOKEN, SET_TOKEN } from '../constants/actionTypes';
+import { AuthRequest } from '../services/RequestServices';
 
 function removeToken() {
   return {
@@ -17,11 +17,7 @@ export function setToken(token) {
 export function logoutThunk(token) {
   return async dispatch => {
     try {
-      await axios.delete('https://api.marktube.tv/v1/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await AuthRequest.logout(token);
     } catch (error) {
       console.log(error);
     }

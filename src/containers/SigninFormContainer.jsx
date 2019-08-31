@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { setToken } from '../actions/token';
-import * as axios from 'axios';
-import SigninForm from '../components/SigninForm';
+import { setToken } from '../actions';
+import SigninForm from '../components/Signin/SigninForm';
 import { push } from 'connected-react-router';
+import { AuthRequest } from '../services/RequestServices';
 
 const mapStateToProps = state => ({
   token: state.token,
@@ -10,10 +10,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   login: async (email, password) => {
-    const response = await axios.post('https://api.marktube.tv/v1/me', {
-      email,
-      password,
-    });
+    const response = await AuthRequest.login(email, password);
     const token = response.data.token;
 
     localStorage.setItem('token', token);
