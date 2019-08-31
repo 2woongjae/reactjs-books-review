@@ -2,21 +2,20 @@ import React from 'react';
 import Head from './Head';
 import Header from './Header';
 import Footer from './Footer';
+import styled from 'styled-components';
 
-const Layout = ({ token, children }) => (
+const StyledDiv = styled.div`
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+`;
+
+const Layout = ({ children }) => (
   <div>
     <Head />
-    <Header token={token} />
-    <div
-      style={{
-        marginLeft: 40,
-        marginRight: 40,
-        marginTop: 30,
-        marginBottom: 50,
-      }}
-    >
-      {children}
-    </div>
+    <Header />
+    <StyledDiv>{children}</StyledDiv>
     <Footer />
   </div>
 );
