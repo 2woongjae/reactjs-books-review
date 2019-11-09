@@ -1,15 +1,11 @@
-import {
-  BOOKS_FETCH_SUCCEEDED,
-  DELETE_BOOK,
-  UNDO_DELETE_BOOK,
-} from '../actions';
+import { DELETE_BOOK, UNDO_DELETE_BOOK, ADD_BOOKS } from '../actions';
 import { List, Map } from 'immutable';
 
 const initialState = List([]);
 
 export default function books(state = initialState, action) {
-  if (action.type === BOOKS_FETCH_SUCCEEDED) {
-    return state.push(...action.books.map(book => Map(book)));
+  if (action.type === ADD_BOOKS) {
+    return state.clear().push(...action.books.map(book => Map(book)));
   } else if (action.type === DELETE_BOOK) {
     return state.map(book => {
       if (book.get('bookId') === action.bookId) {

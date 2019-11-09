@@ -2,19 +2,9 @@ export {
   ADD_BOOKS,
   DELETE_BOOK,
   UNDO_DELETE_BOOK,
-  addBooks,
-  deleteBook,
-  undoDeleteBook,
+  addBooksThunk,
   deleteBookThunk,
-  deleteBookPromise,
-  DELETE,
-  DELETE_PENDING,
-  DELETE_FULFILLED,
-  DELETE_REJECTED,
-  BOOKS_FETCH_REQUESTED,
-  BOOKS_FETCH_SUCCEEDED,
-  BOOKS_FETCH_FAILED,
-  fetchRequest,
+  createBookThunk,
 } from './books';
 
 export {

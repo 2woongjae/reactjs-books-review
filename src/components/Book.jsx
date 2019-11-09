@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, Icon, Avatar } from 'antd';
-import axios from 'axios';
 
 const { Meta } = Card;
 
@@ -17,44 +16,9 @@ const { Meta } = Card;
 //   deletedAt: null,
 // };
 
-function fail() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      reject(new Error('에러!!'));
-    }, 2000);
-  });
-}
-
-export default function Book({
-  token,
-  title,
-  message,
-  bookId,
-  deleteBook,
-  undoDeleteBook,
-  startLoading,
-  endLoading,
-  deleteBookThunk,
-  deleteBookPromise,
-}) {
+export default function Book({ title, message, deleteBook }) {
   async function click() {
-    // startLoading();
-    // deleteBook(bookId);
-    // try {
-    //   //
-    //   // await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
-    //   //   headers: {
-    //   //     Authorization: `Bearer ${token}`,
-    //   //   },
-    //   // });
-    //   await fail();
-    // } catch (error) {
-    //   console.log(error);
-    //   undoDeleteBook(bookId);
-    // }
-    // endLoading();
-    // deleteBookThunk(bookId);
-    deleteBookThunk(bookId);
+    deleteBook();
   }
   return (
     <Card

@@ -6,6 +6,7 @@ import Profile from './pages/Profile';
 import Error from './pages/Error';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from './store';
+import Add from './pages/Add';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           }}
         />
         <Route path="/profile" exact component={Profile} />
+        <Route path="/add" exact component={Add} />
         <Route path="/" exact component={Home} />
         <Route component={Error} />
       </Switch>

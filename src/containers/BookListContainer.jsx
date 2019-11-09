@@ -1,16 +1,6 @@
 import { connect } from 'react-redux';
 import BookList from '../components/BookList';
-import {
-  addBooks,
-  deleteBook,
-  undoDeleteBook,
-  startLoading,
-  endLoading,
-  deleteBookThunk,
-  deleteBookPromise,
-  fetchRequest,
-} from '../actions';
-import { push } from 'connected-react-router';
+import { addBooksThunk, deleteBookThunk } from '../actions';
 
 const mapStateToProps = state => ({
   books: state.books.filter(book => book.get('deletedAt') === null),
@@ -18,33 +8,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  addBooks: books => {
-    dispatch(addBooks(books));
+  addBooksThunk: token => {
+    dispatch(addBooksThunk(token));
   },
-  deleteBook: bookId => {
-    dispatch(deleteBook(bookId));
-  },
-  undoDeleteBook: bookId => {
-    dispatch(undoDeleteBook(bookId));
-  },
-  startLoading: () => {
-    dispatch(startLoading());
-  },
-  endLoading: () => {
-    dispatch(endLoading());
-  },
-  deleteBookThunk: bookId => {
-    dispatch(deleteBookThunk(bookId));
-  },
-  deleteBookPromise: bookId => {
-    dispatch(deleteBookPromise(bookId));
-  },
-  move: url => {
-    dispatch(push(url));
-  },
-  dispatch,
-  fetchRequest: token => {
-    dispatch(fetchRequest(token));
+  deleteBookThunk: (bookId, token) => {
+    dispatch(deleteBookThunk(bookId, token));
   },
 });
 

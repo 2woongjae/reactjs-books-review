@@ -1,58 +1,54 @@
 import { startLoading, endLoading } from './index';
+import { push } from 'connected-react-router';
+import ApiService from '../services/ApiService';
 
 export const ADD_BOOKS = 'ADD_BOOKS';
 export const DELETE_BOOK = 'DELETE_BOOK';
 export const UNDO_DELETE_BOOK = 'UNDO_DELETE_BOOK';
 
-export const DELETE = 'DELETE';
-export const DELETE_PENDING = 'DELETE_PENDING';
-export const DELETE_FULFILLED = 'DELETE_FULFILLED';
-export const DELETE_REJECTED = 'DELETE_REJECTED';
+const apiService = new ApiService();
 
-export const BOOKS_FETCH_REQUESTED = 'BOOKS_FETCH_REQUESTED';
-export const BOOKS_FETCH_SUCCEEDED = 'BOOKS_FETCH_SUCCEEDED';
-export const BOOKS_FETCH_FAILED = 'BOOKS_FETCH_FAILED';
-
-export function fetchRequest(token) {
-  return {
-    type: BOOKS_FETCH_REQUESTED,
-    payload: { token },
-  };
-}
-
-export function addBooks(books) {
+function addBooks(books) {
   return {
     type: ADD_BOOKS,
     books,
   };
 }
 
-export function deleteBook(bookId) {
+export function addBooksThunk(token) {
+  return async dispatch => {
+    dispatch(startLoading());
+    try {
+      const books = await apiService.addBooks(token);
+      dispatch(addBooks(books));
+    } catch (error) {
+      console.log(error);
+    }
+    dispatch(endLoading());
+  };
+}
+
+function deleteBook(bookId) {
   return {
     type: DELETE_BOOK,
     bookId,
   };
 }
 
-export function undoDeleteBook(bookId) {
+function undoDeleteBook(bookId) {
   return {
     type: UNDO_DELETE_BOOK,
     bookId,
   };
 }
 
-export function deleteBookThunk(bookId) {
+export function deleteBookThunk(bookId, token) {
   return async dispatch => {
+    console.log(bookId, token);
     dispatch(startLoading());
     dispatch(deleteBook(bookId));
     try {
-      //
-      // await axios.delete(`https://api.marktube.tv/v1/book/${bookId}`, {
-      //   headers: {
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-      await fail();
+      await apiService.deleteBook(bookId, token);
     } catch (error) {
       console.log(error);
       dispatch(undoDeleteBook(bookId));
@@ -61,10 +57,18 @@ export function deleteBookThunk(bookId) {
   };
 }
 
-export function deleteBookPromise(bookId) {
-  return {
-    type: DELETE,
-    payload: fail(),
+export function createBookThunk(bookReqParam, token) {
+  return async dispatch => {
+    dispatch(startLoading());
+    try {
+      const book = await apiService.createBook(bookReqParam, token);
+      console.log('success', book);
+      // await fail();
+    } catch (error) {
+      console.log(error);
+    }
+    dispatch(endLoading());
+    dispatch(push('/'));
   };
 }
 
