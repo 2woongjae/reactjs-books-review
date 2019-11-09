@@ -1,7 +1,9 @@
 import React from 'react';
-import { Input, Button, Divider, Col } from 'antd';
+import { Input, Button, Divider, Col, message } from 'antd';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
 const Title = styled.div`
   padding-top: 10px;
@@ -104,11 +106,16 @@ const LinkButton = styled(Button)`
   }
 `;
 
-export default class SigninForm extends React.Component {
+class SigninForm extends React.Component {
   _emailInput = React.createRef();
   _passwordInput = React.createRef();
 
+  state = {
+    loading: false,
+  };
+
   render() {
+    const { loading } = this.state;
     return (
       <Col
         span={12}
@@ -122,17 +129,25 @@ export default class SigninForm extends React.Component {
           <StyledSpan />
         </InputTitle>
         <InputArea>
-          <StyledInput placeholder="Email" ref={this._emailInput} />
+          <StyledInput
+            placeholder="Email"
+            ref={this._emailInput}
+            disabled={loading}
+          />
         </InputArea>
         <InputTitle top={10}>
           Password
           <StyledSpan />
         </InputTitle>
         <InputArea>
-          <StyledInput type="password" ref={this._passwordInput} />
+          <StyledInput
+            type="password"
+            ref={this._passwordInput}
+            disabled={loading}
+          />
         </InputArea>
         <ButtonArea>
-          <StyledButton size="large" loading={false} onClick={this._click}>
+          <StyledButton size="large" loading={loading} onClick={this._click}>
             Sign In
           </StyledButton>
         </ButtonArea>
@@ -159,10 +174,52 @@ export default class SigninForm extends React.Component {
     );
   }
 
-  _click = () => {
+  _click = async () => {
+    const { history } = this.props;
+
     console.log(
       this._emailInput.current.state.value,
       this._passwordInput.current.state.value,
     );
+
+    const email = this._emailInput.current.state.value;
+    const password = this._passwordInput.current.state.value;
+
+    if (email === '' && password === '') {
+      return;
+    }
+
+    this.setState({
+      loading: true,
+    });
+
+    try {
+      const res = await axios.post('https://api.marktube.tv/v1/me', {
+        email,
+        password,
+      });
+
+      console.log(res);
+      const token = res.data.token;
+      console.log(token);
+      localStorage.setItem('token', token);
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+      const code = error.response.data.error;
+
+      if (code === 'USER_NOT_EXIST') {
+        message.error('가입이 안된 유저입니다.');
+      } else if (code === 'PASSWORD_NOT_MATCH') {
+        message.error('비밀번호가 틀렸습니다.');
+      } else {
+        message.error(code);
+      }
+      this.setState({
+        loading: false,
+      });
+    }
   };
 }
+
+export default withRouter(SigninForm);
