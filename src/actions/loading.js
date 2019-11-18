@@ -1,5 +1,4 @@
-export const START_LOADING = 'START_LOADING';
-export const END_LOADING = 'END_LOADING';
+import { START_LOADING, END_LOADING } from '../constants/actionTypes';
 
 export function startLoading() {
   return {

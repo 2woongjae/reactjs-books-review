@@ -1,4 +1,8 @@
-import { DELETE_BOOK, UNDO_DELETE_BOOK, ADD_BOOKS } from '../actions';
+import {
+  DELETE_BOOK,
+  UNDO_DELETE_BOOK,
+  ADD_BOOKS,
+} from '../constants/actionTypes';
 import { List, Map } from 'immutable';
 
 const initialState = List([]);

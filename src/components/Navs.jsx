@@ -1,6 +1,4 @@
 import React from 'react';
-import * as axios from 'axios';
-import { withRouter } from 'react-router-dom';
 import {
   StyledMenu,
   MenuItem,
@@ -10,23 +8,7 @@ import {
   StyledLogoutButton,
 } from './Navs.style';
 
-function Navs({ token, history }) {
-  async function logout() {
-    // 로컬 스토리지 파괴
-    localStorage.removeItem('token');
-    // 페이지 이동
-    history.push('/signin');
-    // 서버에 로그아웃 했다고 전달
-    try {
-      await axios.delete('https://api.marktube.tv/v1/me', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      console.log('logout failed', error);
-    }
-  }
+function Navs({ token, logoutThunk }) {
   return (
     <StyledMenu>
       <MenuItem key="1">
@@ -38,7 +20,9 @@ function Navs({ token, history }) {
             <StyledLink to="/profile">My Profile</StyledLink>
           </MenuItem>
           <MenuItem key="4">
-            <StyledLogoutButton onClick={logout}>SIGN OUT</StyledLogoutButton>
+            <StyledLogoutButton onClick={logoutThunk}>
+              SIGN OUT
+            </StyledLogoutButton>
           </MenuItem>
         </StyledMenuSubMenu>
       )}
@@ -46,4 +30,4 @@ function Navs({ token, history }) {
   );
 }
 
-export default withRouter(Navs);
+export default Navs;

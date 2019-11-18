@@ -1,4 +1,4 @@
-import { START_LOADING, END_LOADING } from '../actions';
+import { START_LOADING, END_LOADING } from '../constants/actionTypes';
 
 const initialState = false;
 

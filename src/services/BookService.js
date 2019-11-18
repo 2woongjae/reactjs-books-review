@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = 'https://api.marktube.tv/v1/book';
 
-export default class ApiService {
+export default class BookService {
   async addBooks(token) {
     const res = await axios.get(API_URL, {
       headers: {
@@ -27,5 +27,13 @@ export default class ApiService {
       },
     });
     return res.data;
+  }
+
+  async editBook(bookId, bookReqParam, token) {
+    await axios.patch(`${API_URL}/${bookId}`, bookReqParam, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   }
 }

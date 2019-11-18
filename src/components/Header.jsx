@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledHeader, StyledHome, StyledLink } from './Header.style';
-import Navs from './Navs';
+import NavsContainer from '../containers/NavsContainer';
 
 function Header({ token }) {
   return (
@@ -8,7 +8,7 @@ function Header({ token }) {
       <StyledHome>
         <StyledLink to="/">MARKTUBE</StyledLink>
       </StyledHome>
-      <Navs token={token} />
+      <NavsContainer token={token} />
     </StyledHeader>
   );
 }

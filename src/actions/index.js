@@ -1,15 +1,11 @@
 export {
-  ADD_BOOKS,
-  DELETE_BOOK,
-  UNDO_DELETE_BOOK,
   addBooksThunk,
   deleteBookThunk,
   createBookThunk,
+  editBookThunk,
+  logoutThunk,
 } from './books';
 
-export {
-  START_LOADING,
-  END_LOADING,
-  startLoading,
-  endLoading,
-} from './loading';
+export { startLoading, endLoading } from './loading';
+
+export { setError, removeError } from './error';

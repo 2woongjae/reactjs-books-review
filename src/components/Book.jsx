@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Icon, Avatar } from 'antd';
+import { Card, Icon } from 'antd';
 
 const { Meta } = Card;
 
@@ -16,31 +16,17 @@ const { Meta } = Card;
 //   deletedAt: null,
 // };
 
-export default function Book({ title, message, deleteBook }) {
-  async function click() {
-    deleteBook();
-  }
-  return (
-    <Card
-      style={{ width: 300 }}
-      cover={
-        <img
-          alt="example"
-          src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-        />
-      }
-      actions={[
-        <Icon type="edit" key="edit" />,
-        <Icon type="delete" key="delete" onClick={click} />,
-      ]}
-    >
-      <Meta
-        avatar={
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        }
-        title={title}
-        description={message}
-      />
-    </Card>
-  );
-}
+const Book = ({ title, message, deleteBook, detailBook, editBook }) => (
+  <Card
+    hoverable
+    style={{ marginBottom: 30 }}
+    actions={[
+      <Icon type="edit" key="edit" onClick={editBook} />,
+      <Icon type="delete" key="delete" onClick={deleteBook} />,
+    ]}
+  >
+    <Meta title={title} description={message} onClick={detailBook} />
+  </Card>
+);
+
+export default Book;
