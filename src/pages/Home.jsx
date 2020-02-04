@@ -3,23 +3,10 @@ import withAuth from '../hocs/withAuth';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { removeToken } from '../actions';
+import BooksContainer from '../containers/BooksContainer';
 
 const Home = ({ token }) => {
-  const [books, setBooks] = useState([]);
   const dispatch = useDispatch();
-  console.log(token);
-  useEffect(() => {
-    axios
-      .get('https://api.marktube.tv/v1/book', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then(res => {
-        console.log(res.data);
-        setBooks(res.data);
-      });
-  }, [token]);
 
   async function logout() {
     // 서버에 알려주기
@@ -44,11 +31,7 @@ const Home = ({ token }) => {
     <div>
       <h1>Home</h1>
       <button onClick={logout}>로그 아웃</button>
-      <ul>
-        {books.map(book => (
-          <li key={book.bookId}>{book.title}</li>
-        ))}
-      </ul>
+      <BooksContainer />
     </div>
   );
 };

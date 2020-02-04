@@ -1,16 +1,24 @@
 import { connect } from 'react-redux';
 import SigninForm from '../components/SigninForm';
-import { setToken, startLoading, endLoading } from '../actions';
+import {
+  setToken,
+  startLoading,
+  endLoading,
+  setError,
+  clearError,
+  loginThunk,
+} from '../actions';
 import axios from 'axios';
 
 export default connect(
   state => ({
     loading: state.loading,
+    error: state.error,
   }),
-  dispatch => ({
+  (dispatch, state) => ({
     login: async (email, password) => {
       try {
-        //
+        dispatch(clearError());
         dispatch(startLoading());
         const response = await axios.post('https://api.marktube.tv/v1/me', {
           email,
@@ -22,11 +30,14 @@ export default connect(
         localStorage.setItem('token', token);
         dispatch(setToken(token));
       } catch (error) {
-        console.log(error);
         dispatch(endLoading());
+        dispatch(setError(error));
 
         throw error;
       }
+    },
+    loginThunk: (email, password) => {
+      dispatch(loginThunk(email, password));
     },
   }),
 )(SigninForm);

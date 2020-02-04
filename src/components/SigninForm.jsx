@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Col } from 'antd';
 import styled from 'styled-components';
 import { Button, Input, Divider, message } from 'antd';
@@ -109,7 +109,7 @@ const StyledCol = styled(Col).attrs(() => ({
   vertical-align: top;
 `;
 
-const SigninForm = ({ loading, login }) => {
+const SigninForm = ({ loading, login, error }) => {
   const history = useHistory();
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
@@ -121,16 +121,22 @@ const SigninForm = ({ loading, login }) => {
     try {
       await login(email, password);
       history.push('/');
-    } catch (error) {
-      if (error.response.data.error === 'USER_NOT_EXIST') {
-        message.error('유저가 없습니다.');
-      } else if (error.response.data.error === 'PASSWORD_NOT_MATCH') {
-        message.error('비밀번호가 틀렸습니다.');
-      } else {
-        message.error('로그인에 문제가 있습니다.');
-      }
-    }
+    } catch {}
   }
+
+  useEffect(() => {
+    console.log(error);
+
+    if (error === null) return;
+
+    if (error.response.data.error === 'USER_NOT_EXIST') {
+      message.error('유저가 없습니다.');
+    } else if (error.response.data.error === 'PASSWORD_NOT_MATCH') {
+      message.error('비밀번호가 틀렸습니다.');
+    } else {
+      message.error('로그인에 문제가 있습니다.');
+    }
+  }, [error]);
 
   return (
     <StyledCol>
