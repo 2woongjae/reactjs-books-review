@@ -1,5 +1,5 @@
 import axios from 'axios';
-import BookRequest from './services/BookRequest';
+import BookService from './services/BookService';
 
 export const SET_TOKEN = 'SET_TOKEN';
 export const REMOVE_TOKEN = 'REMOVE_TOKEN';
@@ -46,7 +46,6 @@ export const loginThunk = (email, password) => async dispatch => {
       email,
       password,
     });
-    console.log(response.data);
     const { token } = response.data;
     dispatch(endLoading());
     localStorage.setItem('token', token);
@@ -59,6 +58,25 @@ export const loginThunk = (email, password) => async dispatch => {
   }
 };
 
+export const logoutThunk = token => async dispatch => {
+  // 서버에 알려주기
+  try {
+    await axios.delete('https://api.marktube.tv/v1/me', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  // 토큰 지우기
+  localStorage.removeItem('token');
+
+  // 리덕스 토큰 지우기
+  dispatch(removeToken());
+};
+
 export const SET_BOOKS = 'SET_BOOKS';
 
 export const setBooks = books => ({
@@ -68,7 +86,37 @@ export const setBooks = books => ({
 
 export const setBooksThunk = token => async dispatch => {
   try {
-    const res = await BookRequest.getBooks(token);
+    dispatch(startLoading());
+    dispatch(clearError());
+    await sleep(2000);
+    const res = await BookService.getBooks(token);
+    dispatch(endLoading());
     dispatch(setBooks(res.data));
-  } catch (error) {}
+  } catch (error) {
+    dispatch(endLoading());
+    dispatch(setError(error));
+  }
 };
+
+function sleep(ms) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
+
+// promise
+export const BOOKS = 'BOOKS';
+export const BOOKS_PENDING = 'BOOKS_PENDING';
+export const BOOKS_FULFILLED = 'BOOKS_FULFILLED';
+export const BOOKS_REJECTED = 'BOOKS_REJECTED';
+
+export const setBooksPromise = token => ({
+  type: BOOKS,
+  payload: new Promise(async resolve => {
+    await sleep(2000);
+    const res = await BookService.getBooks(token);
+    resolve(res);
+  }),
+});

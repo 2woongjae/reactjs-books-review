@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Col } from 'antd';
 import styled from 'styled-components';
 import { Button, Input, Divider, message } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Title = styled.div`
   padding-top: 10px;
@@ -110,7 +110,6 @@ const StyledCol = styled(Col).attrs(() => ({
 `;
 
 const SigninForm = ({ loading, login, error }) => {
-  const history = useHistory();
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
 
@@ -120,7 +119,6 @@ const SigninForm = ({ loading, login, error }) => {
 
     try {
       await login(email, password);
-      history.push('/');
     } catch {}
   }
 
