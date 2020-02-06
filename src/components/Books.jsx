@@ -1,11 +1,10 @@
 import React from 'react';
 import { useEffect } from 'react';
 
-const Books = ({ token, books, setBooks, setBooksPromise, error, loading }) => {
+const Books = ({ token, books, getBooks, error, loading }) => {
   useEffect(() => {
-    // setBooks(token);
-    setBooksPromise(token);
-  }, [token, setBooksPromise]);
+    getBooks(token);
+  }, [token, getBooks]);
 
   if (error !== null) {
     return <div>에러다</div>;

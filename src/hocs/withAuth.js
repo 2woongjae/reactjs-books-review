@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 function withAuth(Component, loggedin = true) {
   function WrappedComponent(props) {
-    const token = useSelector(state => state.token);
+    const token = useSelector(state => state.auth.token);
 
     if (loggedin) {
       if (token === null) {

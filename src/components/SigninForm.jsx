@@ -113,13 +113,11 @@ const SigninForm = ({ loading, login, error }) => {
   const emailRef = React.createRef();
   const passwordRef = React.createRef();
 
-  async function click() {
+  function click() {
     const email = emailRef.current.state.value;
     const password = passwordRef.current.state.value;
 
-    try {
-      await login(email, password);
-    } catch {}
+    login(email, password);
   }
 
   useEffect(() => {

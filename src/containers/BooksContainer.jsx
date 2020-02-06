@@ -1,20 +1,17 @@
 import { connect } from 'react-redux';
 import Books from '../components/Books';
-import { setBooksThunk, setBooksPromise } from '../actions';
+import { getBooks } from '../redux/modules/books';
 
 const mapStateToProps = state => ({
-  token: state.token,
-  books: state.books,
-  loading: state.loading,
-  error: state.error,
+  token: state.auth.token,
+  books: state.books.books,
+  loading: state.books.loading,
+  error: state.books.error,
 });
 
 const mapDispatchToProps = dispatch => ({
-  setBooks: token => {
-    dispatch(setBooksThunk(token));
-  },
-  setBooksPromise: token => {
-    dispatch(setBooksPromise(token));
+  getBooks: token => {
+    dispatch(getBooks(token));
   },
 });
 
