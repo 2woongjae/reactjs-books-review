@@ -16,9 +16,9 @@ function withAuth(Component, loggedin = true) {
       }
       return <Component {...props} />;
     } else {
-      if (token !== null) {
-        return <Redirect to="/" />;
-      }
+      // if (token !== null) {
+      //   return <Redirect to="/" />;
+      // }
       return <Component {...props} />;
     }
   }

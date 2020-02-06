@@ -1,26 +1,50 @@
 import BookService from '../../services/BookService';
+import {
+  put,
+  delay,
+  call,
+  takeEvery,
+  takeLatest,
+  takeLeading,
+  select,
+} from 'redux-saga/effects';
+import { createAction, createActions, handleActions } from 'redux-actions';
 
-// 액션 타입
-const PENDING = 'reactjs-books-review/books/PENDING';
-const SUCCESS = 'reactjs-books-review/books/SUCCESS';
-const FAIL = 'reactjs-books-review/books/FAIL';
-
-// 액션 생성자
-const pending = () => ({ type: PENDING });
-const success = books => ({ type: SUCCESS, books });
-const fail = error => ({ type: FAIL, error });
-
-// thunk
-export const getBooks = token => async dispatch => {
-  try {
-    dispatch(pending());
-    await sleep(2000);
-    const res = await BookService.getBooks(token);
-    dispatch(success(res.data));
-  } catch (error) {
-    dispatch(fail(error));
-  }
+const options = {
+  prefix: 'reactjs-books-review/books',
 };
+
+const { success, pending, fail } = createActions(
+  {
+    SUCCESS: books => ({ books }),
+  },
+  'PENDING',
+  'FAIL',
+  options,
+);
+
+// saga
+export const startBooksSaga = createAction('START_BOOKS_SAGA');
+
+function* getBooksSaga() {
+  // 비동기 로직
+  const token = yield select(state => state.auth.token);
+  try {
+    yield put(pending());
+    yield delay(2000);
+    const res = yield call(BookService.getBooks, token);
+    yield put(success(res.data));
+  } catch (error) {
+    yield put(fail(error));
+  }
+}
+
+// 내가 만든 비동기 로직 (나의 사가 함수 : getBooksSaga) 을 등록하는 사가 함수
+export function* booksSaga() {
+  // yield takeEvery(START_BOOKS_SAGA, getBooksSaga);
+  // yield takeLatest(START_BOOKS_SAGA, getBooksSaga);
+  yield takeLeading('START_BOOKS_SAGA', getBooksSaga);
+}
 
 // 초기값
 const initialState = {
@@ -29,38 +53,22 @@ const initialState = {
   error: null,
 };
 
-// 리듀서
-const books = (state = initialState, action) => {
-  switch (action.type) {
-    case PENDING:
-      return {
-        books: [],
-        loading: true,
-        error: null,
-      };
-    case SUCCESS:
-      return {
-        books: action.books,
-        loading: false,
-        error: null,
-      };
-    case FAIL:
-      return {
-        books: [],
-        loading: false,
-        error: action.error,
-      };
-    default:
-      return state;
-  }
-};
+const books = handleActions(
+  {
+    PENDING: (state, action) => ({ books: [], loading: true, error: null }),
+    SUCCESS: (state, action) => ({
+      books: action.payload.books,
+      loading: false,
+      error: null,
+    }),
+    FAIL: (state, action) => ({
+      books: [],
+      loading: false,
+      error: action.payload,
+    }),
+  },
+  initialState,
+  options,
+);
 
 export default books;
-
-function sleep(ms) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, ms);
-  });
-}

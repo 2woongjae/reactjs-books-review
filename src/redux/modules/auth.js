@@ -1,4 +1,5 @@
 import UserService from '../../services/UserService';
+import { push } from 'connected-react-router';
 
 const PENDING = 'reactjs-books-review/auth/PENDING';
 const SUCCESS = 'reactjs-books-review/auth/SUCCESS';
@@ -16,6 +17,7 @@ export const login = (email, password) => async dispatch => {
     const { token } = response.data;
     localStorage.setItem('token', token);
     dispatch(success(token));
+    dispatch(push('/'));
   } catch (error) {
     dispatch(fail(error));
   }
