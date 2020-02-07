@@ -1,13 +1,17 @@
-import { ADD_BOOKS } from "../actions";
+import { SET_BOOKS, BOOKS_FULFILLED, BOOKS_FETCH_SUCCEEDED } from "../actions";
 
 const initialState = [];
 
 const books = (state = initialState, action) => {
-  console.log("books reducer", action);
-  if (action.type === ADD_BOOKS) {
-    return [...action.books];
+  switch (action.type) {
+    case SET_BOOKS:
+    case BOOKS_FETCH_SUCCEEDED:
+      return [...action.books];
+    case BOOKS_FULFILLED:
+      return [...action.payload.data];
+    default:
+      return state;
   }
-  return state;
 };
 
 export default books;

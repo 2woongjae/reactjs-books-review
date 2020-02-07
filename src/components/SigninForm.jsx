@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Col, Input, Button, Divider, message } from "antd";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import { withRouter } from "react-router-dom";
 
 const Title = styled.div`
   padding-top: 10px;
@@ -104,33 +102,22 @@ const LinkButton = styled(Button)`
   }
 `;
 
-function SigninForm({ history }) {
-  const [isLoading, setIsLoading] = useState(false);
-
+function SigninForm({ loading, error, login }) {
   const emailInput = React.createRef();
   const passwordInput = React.createRef();
 
-  async function click() {
+  function click() {
     const email = emailInput.current.state.value;
     const password = passwordInput.current.state.value;
 
-    try {
-      setIsLoading(true);
-      const res = await axios.post("https://api.marktube.tv/v1/me", {
-        email,
-        password
-      });
-      console.log(res.data);
-      setIsLoading(false);
-      localStorage.setItem("token", res.data.token);
-      history.push("/");
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-      // error feedback
+    login(email, password);
+  }
+
+  useEffect(() => {
+    if (error) {
       message.error(error.response.data.error);
     }
-  }
+  }, [error]);
 
   return (
     <Col
@@ -165,7 +152,7 @@ function SigninForm({ history }) {
           />
         </InputArea>
         <ButtonArea>
-          <StyledButton size="large" loading={isLoading} onClick={click}>
+          <StyledButton size="large" loading={loading} onClick={click}>
             Sign In
           </StyledButton>
         </ButtonArea>
@@ -193,4 +180,4 @@ function SigninForm({ history }) {
   );
 }
 
-export default withRouter(SigninForm);
+export default SigninForm;

@@ -1,9 +1,10 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function withAuth(Component) {
   function WrapperComponent(props) {
-    const token = localStorage.getItem("token");
+    const token = useSelector(state => state.token);
 
     if (token == null) {
       return <Redirect to="/signin" />;
