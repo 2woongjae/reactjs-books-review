@@ -1,15 +1,15 @@
 import SigninForm from "../components/SigninForm";
 import { connect } from "react-redux";
-import { login } from "../actions";
+import { loginSaga } from "../redux/modules/auth";
 
 const mapStateToProps = state => ({
-  loading: state.loading,
-  error: state.error
+  loading: state.auth.loading,
+  error: state.auth.error
 });
 
 const mapDispatchToProps = dispatch => ({
   login: (email, password) => {
-    dispatch(login(email, password));
+    dispatch(loginSaga(email, password));
   }
 });
 

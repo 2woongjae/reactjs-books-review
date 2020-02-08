@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 export default function withAuth(Component) {
   function WrapperComponent(props) {
-    const token = useSelector(state => state.token);
+    const token = useSelector(state => state.auth.token);
 
     if (token == null) {
       return <Redirect to="/signin" />;

@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BooksContainer renders properly 1`] = `
+<Connect(Books)
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Books
+    books={
+      Array [
+        Object {
+          "bookId": 1,
+          "message": "모던하군요",
+          "ownerId": "7d26db27-168c-4c6a-bd9a-9e20677b60b8",
+          "title": "모던 자바스크립트 입문",
+        },
+        Object {
+          "bookId": 2,
+          "message": "메세지 Mock",
+          "ownerId": "7d26db27-168c-4c6a-bd9a-9e20677b60b8",
+          "title": "책 Mock",
+        },
+      ]
+    }
+    error={null}
+    loading={false}
+    requestBooksPromise={[Function]}
+    requestBooksSaga={[Function]}
+    requestBooksThunk={[Function]}
+    store={
+      Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      }
+    }
+  >
+    <div>
+      <Book
+        key="1"
+        title="모던 자바스크립트 입문"
+      >
+        <div>
+          title : 
+          모던 자바스크립트 입문
+        </div>
+      </Book>
+      <Book
+        key="2"
+        title="책 Mock"
+      >
+        <div>
+          title : 
+          책 Mock
+        </div>
+      </Book>
+    </div>
+  </Books>
+</Connect(Books)>
+`;

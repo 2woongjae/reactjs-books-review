@@ -1,11 +1,7 @@
 import axios from "axios";
 
 export default class LoginService {
-  static login = (email, password) =>
-    axios.post("https://api.marktube.tv/v1/me", {
-      email,
-      password
-    });
+  static login = user => axios.post("https://api.marktube.tv/v1/me", user);
 
   static logout = token =>
     axios.delete("https://api.marktube.tv/v1/me", {

@@ -1,25 +1,26 @@
 import { createStore, applyMiddleware } from "redux";
-import reducers from "./reducers";
+import reducer from "./modules/reducer";
 import { composeWithDevTools } from "redux-devtools-extension";
-import thunk from "redux-thunk";
-import promise from "redux-promise-middleware";
 import { routerMiddleware } from "connected-react-router";
 import { createBrowserHistory } from "history";
 import createSagaMiddleware from "redux-saga";
-console.log(createSagaMiddleware);
 
 export const history = createBrowserHistory();
 export const sagaMiddleware = createSagaMiddleware();
 
-const initStore = token =>
+const create = token =>
   createStore(
-    reducers(history),
+    reducer(history),
     {
-      token
+      auth: {
+        token,
+        loading: false,
+        error: null
+      }
     },
     composeWithDevTools(
-      applyMiddleware(routerMiddleware(history), thunk, promise, sagaMiddleware)
+      applyMiddleware(routerMiddleware(history), sagaMiddleware)
     )
   );
 
-export default initStore;
+export default create;

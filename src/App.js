@@ -5,7 +5,7 @@ import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import withAuth from "./hocs/withAuth";
 import { ConnectedRouter } from "connected-react-router";
-import { history } from "./store";
+import { history } from "./redux/create";
 
 function App() {
   return (

@@ -1,23 +1,28 @@
-import { connect } from "react-redux";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Books from "../components/Books";
-import { setBooksThunk, setBooksPromise, setBooksSaga } from "../actions";
+import { requestBooksSaga } from "../redux/modules/books";
 
-const mapStateToProps = state => ({
-  books: state.books,
-  loading: state.loading,
-  error: state.error
-});
+const BooksContainer = props => {
+  const books = useSelector(state => state.books.books);
+  const loading = useSelector(state => state.books.loading);
+  const error = useSelector(state => state.books.error);
 
-const mapDispatchToProps = dispatch => ({
-  requestBooksThunk: token => {
-    dispatch(setBooksThunk(token));
-  },
-  requestBooksPromise: token => {
-    dispatch(setBooksPromise(token));
-  },
-  requestBooksSaga: token => {
-    dispatch(setBooksSaga(token));
-  }
-});
+  const dispatch = useDispatch();
 
-export default connect(mapStateToProps, mapDispatchToProps)(Books);
+  const requestBooks = useCallback(() => {
+    dispatch(requestBooksSaga());
+  }, [dispatch]);
+
+  return (
+    <Books
+      {...props}
+      books={books}
+      loading={loading}
+      error={error}
+      requestBooks={requestBooks}
+    />
+  );
+};
+
+export default BooksContainer;
