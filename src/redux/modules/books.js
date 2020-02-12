@@ -23,6 +23,8 @@ const { success, pending, fail } = createActions(
   options,
 );
 
+export { success };
+
 // saga
 export const startBooksSaga = createAction('START_BOOKS_SAGA');
 

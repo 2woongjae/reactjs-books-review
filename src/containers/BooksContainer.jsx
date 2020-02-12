@@ -1,30 +1,41 @@
-import React from 'react';
+// import React from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import Books from '../components/Books';
 import { startBooksSaga } from '../redux/modules/books';
-import { useCallback } from 'react';
+// import { useCallback } from 'react';
 
-const BooksContainer = props => {
-  const books = useSelector(state => state.books.books);
-  const loading = useSelector(state => state.books.loading);
-  const error = useSelector(state => state.books.error);
+// const BooksContainer = props => {
+//   const books = useSelector(state => state.books.books);
+//   const loading = useSelector(state => state.books.loading);
+//   const error = useSelector(state => state.books.error);
 
-  const dispatch = useDispatch();
+//   const dispatch = useDispatch();
 
-  const getBooks = useCallback(() => {
-    dispatch(startBooksSaga());
-  }, [dispatch]);
+//   const getBooks = useCallback(() => {
+//     dispatch(startBooksSaga());
+//   }, [dispatch]);
 
-  return (
-    <Books
-      {...props}
-      books={books}
-      loading={loading}
-      error={error}
-      getBooks={getBooks}
-    />
-  );
-};
+//   return (
+//     <Books
+//       {...props}
+//       books={books}
+//       loading={loading}
+//       error={error}
+//       getBooks={getBooks}
+//     />
+//   );
+// };
 
-export default BooksContainer;
+export default connect(
+  state => ({
+    books: state.books.books,
+    loading: state.books.loading,
+    error: state.books.error,
+  }),
+  dispatch => ({
+    getBooks: () => {
+      dispatch(startBooksSaga());
+    },
+  }),
+)(Books);
