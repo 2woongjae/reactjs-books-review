@@ -4,6 +4,8 @@ import { Row, Col } from 'antd';
 import SigninBg from '../components/SigninBg';
 import SigninFormContainer from '../containers/SigninFormContainer';
 import withAuth from '../hocs/withAuth';
+import useToken from '../hooks/useToken';
+import { Redirect } from 'react-router-dom';
 
 const StyledRow = styled(Row).attrs(() => ({
   type: 'flex',
@@ -50,20 +52,26 @@ const StyledContents = styled(Row).attrs(() => ({
   width: 800px;
 `;
 
-const Signin = () => (
-  <StyledRow>
-    <StyledCol>
-      <StyledTitle>Review Service For Books</StyledTitle>
-      <StyledSubTitle>
-        Please Share Your Opinion On Web Development Books.
-      </StyledSubTitle>
-      <StyledUnderline />
-      <StyledContents>
-        <SigninBg />
-        <SigninFormContainer />
-      </StyledContents>
-    </StyledCol>
-  </StyledRow>
-);
+const Signin = () => {
+  const token = useToken();
+  if (token !== null) {
+    return <Redirect to="/" />;
+  }
+  return (
+    <StyledRow>
+      <StyledCol>
+        <StyledTitle>Review Service For Books</StyledTitle>
+        <StyledSubTitle>
+          Please Share Your Opinion On Web Development Books.
+        </StyledSubTitle>
+        <StyledUnderline />
+        <StyledContents>
+          <SigninBg />
+          <SigninFormContainer />
+        </StyledContents>
+      </StyledCol>
+    </StyledRow>
+  );
+};
 
 export default withAuth(Signin, false);

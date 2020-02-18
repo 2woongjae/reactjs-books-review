@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import Books from '../components/Books';
-import { startBooksSaga } from '../redux/modules/books';
+import { startBooksSaga, startDeleteBookSaga } from '../redux/modules/books';
 // import { useCallback } from 'react';
 
 // const BooksContainer = props => {
@@ -36,6 +36,9 @@ export default connect(
   dispatch => ({
     getBooks: () => {
       dispatch(startBooksSaga());
+    },
+    deleteBook: bookId => {
+      dispatch(startDeleteBookSaga(bookId));
     },
   }),
 )(Books);

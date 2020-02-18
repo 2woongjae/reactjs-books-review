@@ -1,7 +1,9 @@
 import React from 'react';
 import { useEffect } from 'react';
+import { Table } from 'antd';
+import Book from './Book';
 
-const Books = ({ books, getBooks, error, loading }) => {
+const Books = ({ books, getBooks, error, loading, deleteBook }) => {
   useEffect(() => {
     getBooks();
   }, [getBooks]);
@@ -11,14 +13,35 @@ const Books = ({ books, getBooks, error, loading }) => {
   }
 
   return (
-    <>
-      {loading && <p>로딩 중...</p>}
-      <ul>
-        {books.map(book => (
-          <li key={book.bookId}>{book.title}</li>
-        ))}
-      </ul>
-    </>
+    <div>
+      <Table
+        dataSource={books === null ? [] : books.toJS()}
+        columns={[
+          {
+            title: 'Book',
+            dataIndex: 'book',
+            key: 'book',
+            render: (text, record) => (
+              <Book {...record} deleteBook={deleteBook} key={record.bookId} />
+            ),
+          },
+        ]}
+        loading={books === null || loading}
+        showHeader={false}
+        pagination={{
+          size: 'small',
+          pageSize: 10,
+          align: 'center',
+        }}
+        bodyStyle={{
+          borderTop: '1px solid #e8e8e8',
+        }}
+        style={{
+          marginTop: 30,
+        }}
+        rowKey="bookId"
+      />
+    </div>
   );
 };
 

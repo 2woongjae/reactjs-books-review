@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import withAuth from '../hocs/withAuth';
 import BooksContainer from '../containers/BooksContainer';
-import NaviContainer from '../containers/NaviContainer';
 import Modal from '../components/Modal';
 import Layout from '../components/Layout';
-import Helmet from 'react-helmet';
+import useToken from '../hooks/useToken';
+import { Redirect } from 'react-router-dom';
 
 const Home = () => {
   const [visible, setVisible] = useState(false);
@@ -14,10 +13,13 @@ const Home = () => {
   function hide() {
     setVisible(false);
   }
+
+  const token = useToken();
+  if (token === null) {
+    return <Redirect to="/signin" />;
+  }
   return (
     <Layout>
-      <h1>Home</h1>
-      <NaviContainer />
       <BooksContainer />
       <button onClick={show}>Show</button>
       {visible && (
@@ -34,11 +36,8 @@ const Home = () => {
           </div>
         </Modal>
       )}
-      <Helmet>
-        <title>React School !!!!!!!!!!!!</title>
-      </Helmet>
     </Layout>
   );
 };
 
-export default withAuth(Home);
+export default Home;

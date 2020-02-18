@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SigninForm from '../components/SigninForm';
-import { login } from '../redux/modules/auth';
+import { startLoginSaga } from '../redux/modules/auth';
 
 export default connect(
   state => ({
@@ -9,7 +9,7 @@ export default connect(
   }),
   dispatch => ({
     login: (email, password) => {
-      dispatch(login(email, password));
+      dispatch(startLoginSaga(email, password));
     },
   }),
 )(SigninForm);
