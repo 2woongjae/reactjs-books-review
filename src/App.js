@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import Add from './pages/Add';
 import Signin from './pages/Signin';
 import NotFound from './pages/NotFound';
 import ErrorBoundary from 'react-error-boundary';
@@ -14,6 +15,7 @@ const App = () => (
     <ConnectedRouter history={history}>
       <Switch>
         <Route exact path="/signin" component={Signin} />
+        <Route exact path="/add" component={Add} />
         <Route exact path="/" component={Home} />
         <Route component={NotFound} />
       </Switch>

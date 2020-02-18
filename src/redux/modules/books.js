@@ -9,6 +9,7 @@ import {
   select,
 } from 'redux-saga/effects';
 import { createAction, createActions, handleActions } from 'redux-actions';
+import { List } from 'immutable';
 
 const options = {
   prefix: 'reactjs-books-review/books',
@@ -50,7 +51,7 @@ export function* booksSaga() {
 
 // 초기값
 const initialState = {
-  books: [],
+  books: List(),
   loading: false,
   error: null,
 };
